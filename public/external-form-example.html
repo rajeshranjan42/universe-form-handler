@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External Form Example</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        button { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; }
+        .message { margin-top: 20px; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>External Project Form</h1>
+    <p>This form sends data to your Universal Form Handler</p>
+    
+    <form id="externalForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        
+        <input type="hidden" name="_honeypot" value="">
+        <input type="hidden" name="source" value="External Project Form">
+        
+        <button type="submit">Send Message</button>
+    </form>
+    
+    <div id="responseMessage"></div>
+
+    <script>
+        document.getElementById('externalForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            const button = e.target.querySelector('button');
+            const messageDiv = document.getElementById('responseMessage');
+            
+            button.textContent = 'Sending...';
+            button.disabled = true;
+            
+            try {
+                // Replace with your actual form handler URL
+                const response = await fetch('http://localhost:3001/submit-form', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                messageDiv.innerHTML = `<div class="${result.success ? 'success' : 'error'}">${result.message}</div>`;
+                
+                if (result.success) {
+                    e.target.reset();
+                }
+            } catch (error) {
+                messageDiv.innerHTML = `<div class="error">Network error: ${error.message}</div>`;
+            }
+            
+            button.textContent = 'Send Message';
+            button.disabled = false;
+        });
+    </script>
+</body>
+</html>
