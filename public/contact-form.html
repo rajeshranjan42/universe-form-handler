@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form - Universe Form Handler</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); min-height: 100vh; color: #fff; }
+        .navbar { background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,215,0,0.2); padding: 15px 0; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #FFD700; }
+        .logo-icon { font-size: 65px; }
+        .logo-text { font-size: 1.5rem; font-weight: 700; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #FFD700; }
+        .container { max-width: 500px; margin: 40px auto; background: linear-gradient(145deg, #1e1e3f 0%, #2a2a5a 100%); border: 2px solid #FFD700; border-radius: 20px; padding: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
+        h1 { text-align: center; color: #FFD700; margin-bottom: 30px; font-size: 2rem; }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #FFD700; }
+        input, textarea { width: 100%; padding: 15px; background: rgba(255,215,0,0.05); border: 2px solid rgba(255,215,0,0.3); border-radius: 10px; font-size: 16px; color: #fff; transition: all 0.3s; }
+        input:focus, textarea:focus { outline: none; border-color: #FFD700; background: rgba(255,215,0,0.1); }
+        textarea { resize: vertical; min-height: 120px; }
+        button { width: 100%; padding: 18px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #000; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,215,0,0.3); }
+        .message { margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; }
+        .success { background: rgba(40,167,69,0.2); color: #28a745; border: 1px solid #28a745; }
+        .error { background: rgba(153, 108, 112, 0.2); color: #dc3545; border: 1px solid #dc3545; }
+        .back-btn { display: inline-block; margin-bottom: 20px; color: #FFD700; text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .back-btn:hover { color: #FFA500; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Universe Form Handler</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/contact-form.html">Simple Form</a></li>
+                <li><a href="/all-form-code.html">Advanced Form</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/health">API Status</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <a href="/" class="back-btn">← Back to Dashboard</a>
+        <h1>📧 Contact Form</h1>
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject">
+            </div>
+            <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <input type="hidden" name="_honeypot" value="">
+            <button type="submit">Send Message</button>
+        </form>
+        <div id="responseMessage"></div>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            const button = e.target.querySelector('button');
+            const messageDiv = document.getElementById('responseMessage');
+            
+            button.textContent = 'Sending...';
+            button.disabled = true;
+            
+            try {
+                const response = await fetch('/submit-form', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                messageDiv.innerHTML = `<div class="${result.success ? 'success' : 'error'}">${result.message}</div>`;
+                
+                if (result.success) {
+                    e.target.reset();
+                }
+            } catch (error) {
+                messageDiv.innerHTML = `<div class="error">Network error. Please try again.</div>`;
+            }
+            
+            button.textContent = 'Send Message';
+            button.disabled = false;
+        });
+    </script>
+</body>
+</html>

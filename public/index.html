@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universe Form Handler - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); min-height: 100vh; color: #fff; }
+        
+        .navbar { background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,215,0,0.2); padding: 15px 0; position: sticky; top: 0; z-index: 100; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #FFD700; }
+        .logo-icon { font-size: 65px; }
+        .logo-text { font-size: 1.5rem; font-weight: 700; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #FFD700; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; margin-bottom: 60px; }
+        .header h1 { font-size: 3.5rem; margin-bottom: 15px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .header p { font-size: 1.3rem; opacity: 0.8; color: #ccc; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .card { background: linear-gradient(145deg, #1e1e3f 0%, #2a2a5a 100%); border: 1px solid rgba(255,215,0,0.2); border-radius: 20px; padding: 35px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #FFD700, #FFA500); }
+        .card:hover { transform: translateY(-8px); border-color: #FFD700; box-shadow: 0 25px 50px rgba(255,215,0,0.1); }
+        .card-icon { font-size: 3.5rem; margin-bottom: 25px; }
+        .card h3 { color: #FFD700; margin-bottom: 18px; font-size: 1.6rem; font-weight: 600; }
+        .card p { color: #ccc; line-height: 1.7; margin-bottom: 25px; }
+        .btn { display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #000; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,215,0,0.3); }
+        
+        .status { background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%); border: 2px solid #FFD700; border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 50px; }
+        .status h3 { color: #FFD700; margin-bottom: 30px; font-size: 2rem; }
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
+        .status-item { background: rgba(255,215,0,0.05); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,215,0,0.3); transition: all 0.3s; }
+        .status-item:hover { background: rgba(255,215,0,0.1); transform: translateY(-3px); }
+        .status-item h4 { color: #FFD700; margin-bottom: 12px; font-size: 1.1rem; }
+        .status-item p { color: #ccc; }
+        
+        .endpoints { background: linear-gradient(145deg, #2a2a5a 0%, #1e1e3f 100%); border-radius: 20px; padding: 40px; }
+        .endpoints h3 { color: #FFD700; margin-bottom: 30px; font-size: 2rem; }
+        .endpoint { background: rgba(255,215,0,0.05); margin: 20px 0; padding: 25px; border-radius: 15px; border-left: 5px solid #FFD700; transition: all 0.3s; }
+        .endpoint:hover { background: rgba(255,215,0,0.1); transform: translateX(5px); }
+        .method { display: inline-block; padding: 6px 16px; border-radius: 25px; font-size: 0.85rem; font-weight: 700; margin-right: 15px; }
+        .post { background: #28a745; color: white; }
+        .get { background: #007bff; color: white; }
+        .endpoint strong { color: #FFD700; font-size: 1.1rem; }
+        .endpoint p { color: #ccc; margin: 10px 0; }
+        code { background: rgba(0,0,0,0.3); color: #FFD700; padding: 4px 8px; border-radius: 6px; font-family: 'Fira Code', monospace; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🍁</span>
+                <span class="logo-text">Universe Form Handler</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/contact-form.html">Simple Form</a></li>
+                <li><a href="/all-form-code.html">Advanced Form</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/health">API Status</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Universe Form Handler</h1>
+            <p>Enterprise-Grade Form Processing Platform</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">📧</div>
+                <h3>Simple Contact Form</h3>
+                <p>Basic contact form with name, email, subject and message fields. Perfect for simple inquiries.</p>
+                <a href="/contact-form.html" class="btn">View Form</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📋</div>
+                <h3>Advanced Form</h3>
+                <p>Complete form with file uploads, dropdowns, checkboxes and all field types. Enterprise ready.</p>
+                <a href="/all-form-code.html" class="btn">View Form</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>API Endpoints</h3>
+                <p>RESTful API endpoints for form submission with JSON responses. Developer friendly.</p>
+                <a href="#endpoints" class="btn">View API</a>
+            </div>
+        </div>
+
+        <div class="status">
+            <h3>🎯 Server Status</h3>
+            <div class="status-grid">
+                <div class="status-item">
+                    <h4>🟢 Server Running</h4>
+                    <p>All systems operational</p>
+                </div>
+                <div class="status-item">
+                    <h4>🔒 Security Enabled</h4>
+                    <p>CORS, Helmet, Rate Limiting</p>
+                </div>
+                <div class="status-item">
+                    <h4>📨 Email Ready</h4>
+                    <p>Beautiful HTML templates</p>
+                </div>
+                <div class="status-item">
+                    <h4>📁 File Upload</h4>
+                    <p>PDF, DOC, Images supported</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="endpoints" id="endpoints">
+            <h3>🔗 API Endpoints</h3>
+            
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <strong>/submit-form</strong>
+                <p>Submit form data as JSON. Returns success/error response.</p>
+                <code>Content-Type: application/json</code>
+            </div>
+
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <strong>/submit-form-files</strong>
+                <p>Submit form with file attachments. Supports multipart/form-data.</p>
+                <code>Content-Type: multipart/form-data</code>
+            </div>
+
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <strong>/health</strong>
+                <p>Server health check endpoint. Returns status and timestamp.</p>
+                <code>Returns: {"status":"OK","time":timestamp}</code>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
