@@ -13,6 +13,9 @@ const path        = require('path');
 
 const app = express();
 
+// Trust proxy for Render deployment
+app.set('trust proxy', 1);
+
 /* ── 1. BASIC SECURITY & CORS ──────────────────────────── */
 app.use(helmet({
   contentSecurityPolicy: {
