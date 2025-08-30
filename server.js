@@ -33,12 +33,13 @@ app.use(cors({
   credentials: true
 }));
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,   // 15 min
-  max     : 10,               // 10 req/IP
-  message : { error:'Too many requests, please try again later.' }
-});
-app.use(['/submit-form', '/submit-form-files'], limiter);
+// Rate limiting disabled for deployment
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,   // 15 min
+//   max     : 10,               // 10 req/IP
+//   message : { error:'Too many requests, please try again later.' }
+// });
+// app.use(['/submit-form', '/submit-form-files'], limiter);
 
 /* ── 2. BODY PARSERS & STATIC ───────────────────────────── */
 app.use(express.urlencoded({ extended:true, limit:'10mb' }));
