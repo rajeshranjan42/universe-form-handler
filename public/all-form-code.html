@@ -224,6 +224,87 @@
         transform: translateY(-2px);
         box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
       }
+
+      
+      .navbar {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        position: relative;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: #ffd700;
+      }
+      .logo-icon {
+        font-size: 65px;
+      }
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+        border: none;
+        outline: none;
+      }
+      .nav-links a:hover {
+        color: #ffd700;
+      }
+      .mobile-menu {
+        display: none;
+        background: none;
+        border: none;
+        color: #ffd700;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+      .header h1 {
+        font-size: 3.5rem;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .header p {
+        font-size: 1.3rem;
+        opacity: 0.8;
+        color: #ccc;
+      }
     </style>
   </head>
   <body
