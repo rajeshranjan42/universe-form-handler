@@ -6,6 +6,10 @@
     <title>Contact Form - Universe Form Handler</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
         body { font-family: 'Inter', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); min-height: 100vh; color: #fff; }
         .navbar { background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,215,0,0.2); padding: 15px 0; }
         .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
@@ -13,7 +17,7 @@
         .logo-icon { font-size: 65px; }
         .logo-text { font-size: 1.5rem; font-weight: 700; }
         .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; border: none; outline: none; }
         .nav-links a:hover { color: #FFD700; }
         .mobile-menu { display: none; background: none; border: none; color: #FFD700; font-size: 1.5rem; cursor: pointer; }
         .container { max-width: 500px; margin: 40px auto; background: linear-gradient(145deg, #1e1e3f 0%, #2a2a5a 100%); border: 2px solid #FFD700; border-radius: 20px; padding: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
@@ -32,8 +36,8 @@
         .back-btn:hover { color: #FFA500; }
         
         @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0,0,0,0.9); padding: 20px; }
-            .nav-links.active { display: flex; }
+            .nav-links { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0,0,0,0.9); padding: 20px; transform: translateY(-100%); opacity: 0; transition: all 0.3s ease; pointer-events: none; }
+            .nav-links.active { transform: translateY(0); opacity: 1; pointer-events: auto; }
             .mobile-menu { display: block; }
             .logo-icon { font-size: 45px; }
             .logo-text { font-size: 1.2rem; }
@@ -72,7 +76,7 @@
         </div>
     </nav>
     
-    <div class="container">
+    <div class="container fade-in">
         <a href="/" class="back-btn">← Back to Dashboard</a>
         <h1>📧 Contact Form</h1>
         <form id="contactForm">
@@ -137,6 +141,20 @@
             const navLinks = document.getElementById('navLinks');
             navLinks.classList.toggle('active');
         }
+        
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.fade-in');
+            animatedElements.forEach(el => observer.observe(el));
+        });
     </script>
 </body>
 </html>
