@@ -63,6 +63,7 @@
                 <li><a href="/">Dashboard</a></li>
                 <li><a href="/contact-form.html">Simple Form</a></li>
                 <li><a href="/all-form-code.html">Advanced Form</a></li>
+                <li><a href="/custom-form-test.html">Custom API</a></li>
                 <li><a href="/contact.html">Contact</a></li>
                 <li><a href="/health">API Status</a></li>
             </ul>
@@ -95,6 +96,13 @@
                 <h3>API Endpoints</h3>
                 <p>RESTful API endpoints for form submission with JSON responses. Developer friendly.</p>
                 <a href="#endpoints" class="btn">View API</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔧</div>
+                <h3>Custom Email API</h3>
+                <p>Let users send forms to their own email addresses. Perfect for external integrations.</p>
+                <a href="/custom-form-test.html" class="btn">Test API</a>
             </div>
         </div>
 
@@ -135,6 +143,13 @@
                 <strong>/submit-form-files</strong>
                 <p>Submit form with file attachments. Supports multipart/form-data.</p>
                 <code>Content-Type: multipart/form-data</code>
+            </div>
+
+            <div class="endpoint">
+                <span class="method post">POST</span>
+                <strong>/submit-custom-form</strong>
+                <p>Submit form with custom email credentials. Users can send to their own email addresses.</p>
+                <code>Body: {"formData":{...}, "emailConfig":{"user":"...", "pass":"...", "to":"..."}}</code>
             </div>
 
             <div class="endpoint">
