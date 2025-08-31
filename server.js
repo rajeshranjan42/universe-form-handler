@@ -216,6 +216,27 @@ app.post('/submit-custom-form', async (req,res)=>{
     if (formData._honeypot) return res.status(400).json({success:false,message:'Spam detected'});
     if (!Object.keys(formData).length) return res.status(400).json({success:false,message:'No form data received'});
 
+    // Email validation
+    if (formData.email) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(formData.email)) {
+        return res.status(400).json({success:false,message:'Please enter a valid email address'});
+      }
+      
+      // Check for obviously fake emails
+      const suspiciousPatterns = [
+        /^[a-z]{5,}@gmail\.com$/i,  // Like hdghjjhg@gmail.com
+        /^[0-9]+@/,                 // Numbers only
+        /test.*@/i,                 // test emails
+        /fake.*@/i,                 // fake emails
+        /^[a-z]\1{4,}@/i           // Repeated characters
+      ];
+      
+      if (suspiciousPatterns.some(pattern => pattern.test(formData.email))) {
+        return res.status(400).json({success:false,message:'Please enter your real email address'});
+      }
+    }
+
     // Create custom transporter
     const customTransporter = nodemailer.createTransporter({
       service: emailConfig.service || 'gmail',
@@ -249,6 +270,27 @@ app.post('/submit-form', async (req,res)=>{
     // Honeypot
     if (data._honeypot) return res.status(400).json({success:false,message:'Spam detected'});
     if (!Object.keys(data).length) return res.status(400).json({success:false,message:'No data received'});
+
+    // Email validation
+    if (data.email) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(data.email)) {
+        return res.status(400).json({success:false,message:'Please enter a valid email address'});
+      }
+      
+      // Check for obviously fake emails
+      const suspiciousPatterns = [
+        /^[a-z]{5,}@gmail\.com$/i,  // Like hdghjjhg@gmail.com
+        /^[0-9]+@/,                 // Numbers only
+        /test.*@/i,                 // test emails
+        /fake.*@/i,                 // fake emails
+        /^[a-z]\1{4,}@/i           // Repeated characters
+      ];
+      
+      if (suspiciousPatterns.some(pattern => pattern.test(data.email))) {
+        return res.status(400).json({success:false,message:'Please enter your real email address'});
+      }
+    }
 
     // Log form data
     console.log('Form data received:', data);
