@@ -23,12 +23,18 @@
       <span class="logo-icon">🍁</span>
       <span class="logo-text">Universe Form Handler</span>
     </a>
-    <div class="nav-links d-flex gap-4">
-      <a href="/">Dashboard</a>
-      <a href="/contact-form.html">Simple Form</a>
-      <a href="/all-form-code.html">Advanced Form</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/health">API Status</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border: none; color: #FFD700;">
+      <span>☰</span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="nav-links d-flex gap-4 ms-auto">
+        <a href="/">Dashboard</a>
+        <a href="/contact-form.html">Simple Form</a>
+        <a href="/all-form-code.html">Advanced Form</a>
+        <a href="/custom-form-test.html">Custom API</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/health">API Status</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -115,5 +121,6 @@
   <div id="alertBox" class="alert mt-3" style="display:none;"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/all-form-code.js"></script>
 </body></html>

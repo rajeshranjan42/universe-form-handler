@@ -15,6 +15,7 @@
         .nav-links { display: flex; gap: 30px; list-style: none; }
         .nav-links a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; }
         .nav-links a:hover { color: #FFD700; }
+        .mobile-menu { display: none; background: none; border: none; color: #FFD700; font-size: 1.5rem; cursor: pointer; }
         .container { max-width: 500px; margin: 40px auto; background: linear-gradient(145deg, #1e1e3f 0%, #2a2a5a 100%); border: 2px solid #FFD700; border-radius: 20px; padding: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
         h1 { text-align: center; color: #FFD700; margin-bottom: 30px; font-size: 2rem; }
         .form-group { margin-bottom: 25px; }
@@ -31,10 +32,11 @@
         .back-btn:hover { color: #FFA500; }
         
         @media (max-width: 768px) {
-            .nav-container { flex-direction: column; gap: 15px; }
+            .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0,0,0,0.9); padding: 20px; }
+            .nav-links.active { display: flex; }
+            .mobile-menu { display: block; }
             .logo-icon { font-size: 45px; }
             .logo-text { font-size: 1.2rem; }
-            .nav-links { flex-wrap: wrap; gap: 15px; justify-content: center; }
             .container { margin: 20px; padding: 30px; }
         }
         
@@ -58,7 +60,8 @@
                 <span class="logo-icon">🍁</span>
                 <span class="logo-text">Universe Form Handler</span>
             </a>
-            <ul class="nav-links">
+            <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="/">Dashboard</a></li>
                 <li><a href="/contact-form.html">Simple Form</a></li>
                 <li><a href="/all-form-code.html">Advanced Form</a></li>
@@ -129,6 +132,11 @@
             button.textContent = 'Send Message';
             button.disabled = false;
         });
+        
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
     </script>
 </body>
 </html>
