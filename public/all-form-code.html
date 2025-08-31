@@ -25,6 +25,8 @@
         background: rgba(0, 0, 0, 0.3) !important;
         backdrop-filter: blur(10px);
         border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        position: relative;
+        z-index: 9999;
       }
       .logo {
         display: flex;
@@ -72,6 +74,8 @@
         font-size: 1.5rem;
         cursor: pointer;
         padding: 8px;
+        position: relative;
+        z-index: 10000;
       }
       .form-container {
         background: linear-gradient(
@@ -80,6 +84,8 @@
           #2a2a5a 100%
         ) !important;
         border: 2px solid #ffd700 !important;
+        position: relative;
+        z-index: 1;
       }
       .form-control {
         background: rgba(255, 215, 0, 0.05) !important;
@@ -143,12 +149,14 @@
           left: 0;
           right: 0;
           background: rgba(0, 0, 0, 0.95);
+          backdrop-filter: blur(10px);
           padding: 20px;
           transform: translateY(-100%);
           opacity: 0;
           transition: all 0.3s ease;
           pointer-events: none;
-          z-index: 1000;
+          z-index: 9998;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         
         .nav-links.active {
@@ -163,6 +171,10 @@
           text-align: center;
         }
         
+        .nav-links a:last-child {
+          border-bottom: none;
+        }
+        
         .logo-icon {
           font-size: 45px;
         }
@@ -172,49 +184,37 @@
         .container {
           padding: 20px 15px;
         }
-        .header {
-          margin-bottom: 40px;
-        }
-        .header h1 {
-          font-size: 2.5rem;
-        }
-        .header p {
-          font-size: 1.1rem;
-        }
       }
       
       @media (max-width: 480px) {
-        .nav-container {
-          padding: 0 15px;
-        }
         .logo-icon {
           font-size: 35px;
         }
         .logo-text {
           font-size: 1rem;
         }
-        .container {
-          padding: 15px 10px;
-        }
         .mobile-menu {
           font-size: 1.3rem;
         }
       }
       
-      button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+      /* Overlay to prevent interaction with content when menu is open */
+      .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9997;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
       }
-      button {
-        padding: 18px;
-        background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-        color: #000;
-        border: none;
-        border-radius: 10px;
-        font-size: 16px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s;
+      
+      .menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
       }
     </style>
   </head>
@@ -230,6 +230,8 @@
       color: #fff;
     "
   >
+    <div class="menu-overlay" id="menuOverlay"></div>
+    
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
         <a href="/" class="logo">
@@ -360,10 +362,18 @@
       document.addEventListener('DOMContentLoaded', () => {
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
+        const menuOverlay = document.getElementById('menuOverlay');
         
-        if (mobileMenuBtn && navLinks) {
+        if (mobileMenuBtn && navLinks && menuOverlay) {
           mobileMenuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+          });
+          
+          // Close menu when clicking on overlay
+          menuOverlay.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            menuOverlay.classList.remove('active');
           });
           
           // Close menu when clicking on a link
@@ -371,14 +381,8 @@
           menuLinks.forEach(link => {
             link.addEventListener('click', () => {
               navLinks.classList.remove('active');
+              menuOverlay.classList.remove('active');
             });
-          });
-          
-          // Close menu when clicking outside
-          document.addEventListener('click', (e) => {
-            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-              navLinks.classList.remove('active');
-            }
           });
         }
       });
