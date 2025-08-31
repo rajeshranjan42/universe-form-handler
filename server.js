@@ -212,6 +212,50 @@ app.post('/submit-form-files', upload.single('document'), async (req,res)=>{
   }
 });
 
+// Custom email endpoint for external users
+app.post('/submit-custom-form', async (req,res)=>{
+  try{
+    const { formData, emailConfig } = req.body;
+    const source = formData.source || req.get('Referer') || 'Unknown';
+
+    // Validate required fields
+    if (!formData || !emailConfig) {
+      return res.status(400).json({success:false,message:'Missing formData or emailConfig'});
+    }
+
+    if (!emailConfig.user || !emailConfig.pass || !emailConfig.to) {
+      return res.status(400).json({success:false,message:'Missing email credentials (user, pass, to)'});
+    }
+
+    // Honeypot
+    if (formData._honeypot) return res.status(400).json({success:false,message:'Spam detected'});
+    if (!Object.keys(formData).length) return res.status(400).json({success:false,message:'No form data received'});
+
+    // Create custom transporter
+    const customTransporter = nodemailer.createTransporter({
+      service: emailConfig.service || 'gmail',
+      auth: {
+        user: emailConfig.user,
+        pass: emailConfig.pass
+      }
+    });
+
+    const {html,text} = buildEmail(formData,source);
+    await customTransporter.sendMail({
+      from   : emailConfig.user,
+      to     : emailConfig.to,
+      subject: emailConfig.subject || `New Form Submission from ${source}`,
+      text, html
+    });
+
+    res.json({success:true,message:'✅ Form submitted successfully! Check your email.'});
+  }
+  catch(err){
+    console.error('Custom email send error →',err.message);
+    res.json({success:false,message:'Email delivery failed: ' + err.message});
+  }
+});
+
 app.post('/submit-form', async (req,res)=>{
   try{
     const data   = req.body;
