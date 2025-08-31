@@ -72,7 +72,7 @@
                 <span class="logo-icon">🍁</span>
                 <span class="logo-text">Universe Form Handler</span>
             </a>
-            <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+            <button class="mobile-menu" id="mobileMenuBtn">☰</button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="/">Dashboard</a></li>
                 <li><a href="/contact-form.html">Simple Form</a></li>
@@ -187,10 +187,16 @@
             button.disabled = false;
         });
         
-        function toggleMenu() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
         
         // Scroll animations
         const observer = new IntersectionObserver((entries) => {
