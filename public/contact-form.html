@@ -29,6 +29,26 @@
         .error { background: rgba(153, 108, 112, 0.2); color: #dc3545; border: 1px solid #dc3545; }
         .back-btn { display: inline-block; margin-bottom: 20px; color: #FFD700; text-decoration: none; font-weight: 600; transition: color 0.3s; }
         .back-btn:hover { color: #FFA500; }
+        
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; gap: 15px; }
+            .logo-icon { font-size: 45px; }
+            .logo-text { font-size: 1.2rem; }
+            .nav-links { flex-wrap: wrap; gap: 15px; justify-content: center; }
+            .container { margin: 20px; padding: 30px; }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-container { padding: 0 15px; }
+            .logo-icon { font-size: 35px; }
+            .logo-text { font-size: 1rem; }
+            .nav-links { gap: 10px; }
+            .nav-links a { font-size: 0.9rem; }
+            .container { margin: 10px; padding: 20px; }
+            h1 { font-size: 1.5rem; }
+            input, textarea { padding: 12px; font-size: 14px; }
+            button { padding: 15px; font-size: 14px; }
+        }
     </style>
 </head>
 <body>
@@ -42,6 +62,7 @@
                 <li><a href="/">Dashboard</a></li>
                 <li><a href="/contact-form.html">Simple Form</a></li>
                 <li><a href="/all-form-code.html">Advanced Form</a></li>
+                <li><a href="/custom-form-test.html">Custom API</a></li>
                 <li><a href="/contact.html">Contact</a></li>
                 <li><a href="/health">API Status</a></li>
             </ul>
